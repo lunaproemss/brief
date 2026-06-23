@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Бриф на сайт — что нужно знать перед запуском</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0A0A0B;
+  --bg2:#121214;
+  --paper:#171719;
+  --ink:#EDEAE3;
+  --ink-dim:#8C8B89;
+  --ink-dimmer:#5A5A59;
+  --line:#26262A;
+  --line2:#34343A;
+  --cyan:#00E5C7;
+  --cyan-dim:#0A3F39;
+  --fd:'Space Grotesk',sans-serif;
+  --fb:'Inter',sans-serif;
+  --fm:'IBM Plex Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--fd);line-height:1.05;letter-spacing:-.01em}
+p{color:var(--ink-dim);font-size:15px;line-height:1.8}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:980px;margin:0 auto;padding:0 28px}
+::selection{background:var(--cyan);color:#000}
+
+/* perforation edge — signature device, like a tear-off form page */
+.perf-top{position:relative}
+.perf-top::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background-image:radial-gradient(circle, var(--bg) 2px, transparent 2px);
+  background-size:14px 1px;background-position:0 0;
+  transform:translateY(-1px);
+}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,11,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.ni{max-width:980px;margin:0 auto;padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nlogo{font-family:var(--fm);font-size:12.5px;color:var(--ink-dim);letter-spacing:.04em}
+.nlogo b{color:var(--ink);font-weight:500}
+.nlogo .blink{color:var(--cyan)}
+.nstatus{display:flex;align-items:center;gap:8px;font-family:var(--fm);font-size:11px;color:var(--ink-dimmer);letter-spacing:.04em}
+.ndot{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 0 80px;position:relative}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;opacity:.4;mask-image:radial-gradient(ellipse 70% 60% at 50% 30%,#000 0%,transparent 75%)}
+.htag{display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;font-family:var(--fm);font-size:11px;color:var(--ink-dim);letter-spacing:.06em;position:relative;z-index:1}
+.htag-n{color:var(--cyan)}
+h1.h-title{font-size:clamp(2.4rem,5.5vw,4.4rem);font-weight:600;color:var(--ink);margin-bottom:24px;position:relative;z-index:1;max-width:760px}
+h1.h-title em{font-style:normal;color:var(--cyan)}
+.h-desc{font-size:16.5px;color:var(--ink-dim);max-width:560px;line-height:1.85;margin-bottom:20px;position:relative;z-index:1}
+.h-desc b{color:var(--ink);font-weight:500}
+.h-meta{display:flex;gap:32px;margin-top:48px;flex-wrap:wrap;position:relative;z-index:1}
+.h-meta-item{font-family:var(--fm);font-size:11.5px;color:var(--ink-dimmer)}
+.h-meta-item b{display:block;color:var(--ink);font-size:14px;font-weight:500;font-family:var(--fb);margin-bottom:4px}
+
+/* WHO AM I STRIP */
+.whoami{padding:56px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg2)}
+.who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.who-item{display:flex;gap:16px;align-items:flex-start}
+.who-mark{font-family:var(--fm);font-size:11px;color:var(--cyan);flex-shrink:0;padding-top:3px;width:24px}
+.who-title{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:5px}
+.who-desc{font-size:12.5px;color:var(--ink-dim);line-height:1.65}
+
+/* SECTION BASE */
+.sec{padding:96px 0}
+.sec-head{margin-bottom:56px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px}
+.sec-eyebrow{font-family:var(--fm);font-size:11px;color:var(--cyan);letter-spacing:.1em;margin-bottom:14px;display:block}
+.sec-title{font-size:clamp(1.7rem,3vw,2.4rem);font-weight:600;color:var(--ink)}
+.sec-note{font-family:var(--fm);font-size:11px;color:var(--ink-dimmer);text-align:right;max-width:240px;line-height:1.6}
+
+/* BRIEF SECTIONS — "dossier card" signature */
+.dossier-grid{display:flex;flex-direction:column;gap:1px;background:var(--line)}
+.dcard{background:var(--paper);position:relative;overflow:hidden}
+.dcard-inner{display:grid;grid-template-columns:120px 1fr;gap:0}
+.dcard-tab{background:var(--bg2);padding:32px 20px;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between}
+.dcard-num{font-family:var(--fm);font-size:28px;color:var(--line2);font-weight:500;line-height:1}
+.dcard-status{font-family:var(--fm);font-size:9.5px;color:var(--ink-dimmer);letter-spacing:.06em;writing-mode:vertical-rl;text-orientation:mixed;margin-top:auto}
+.dcard-body{padding:32px 36px}
+.dcard-label{font-family:var(--fm);font-size:10.5px;color:var(--cyan);letter-spacing:.1em;margin-bottom:10px;display:block}
+.dcard-title{font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:12px}
+.dcard-desc{font-size:13.5px;color:var(--ink-dim);line-height:1.75;margin-bottom:18px;max-width:580px}
+.dcard-fields{display:flex;flex-wrap:wrap;gap:8px}
+.dfield{font-family:var(--fm);font-size:11px;color:var(--ink-dim);background:var(--bg2);border:1px solid var(--line2);border-radius:6px;padding:6px 12px;display:flex;align-items:center;gap:6px}
+.dfield-dot{width:5px;height:5px;border-radius:50%;background:var(--ink-dimmer);flex-shrink:0}
+.dfield.upload .dfield-dot{background:var(--cyan)}
+.dfield.upload{border-color:var(--cyan-dim);color:var(--ink)}
+
+/* TIMELINE / PROCESS */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;margin-top:8px}
+.flow::before{content:'';position:absolute;top:21px;left:5%;right:5%;height:1px;background:var(--line2)}
+.flow-step{text-align:left;padding-right:24px;position:relative;z-index:1}
+.flow-dot{width:42px;height:42px;border-radius:50%;background:var(--bg);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-family:var(--fm);font-size:13px;color:var(--ink-dim)}
+.flow-step:first-child .flow-dot{border-color:var(--cyan);color:var(--cyan)}
+.flow-title{font-size:14.5px;font-weight:500;color:var(--ink);margin-bottom:6px}
+.flow-desc{font-size:12.5px;color:var(--ink-dim);line-height:1.6}
+
+/* CTA / NEXT */
+.cta-sec{background:var(--bg2);border-top:1px solid var(--line);padding:96px 0}
+.cta-sec .wrap{max-width:760px}
+
+/* FORM */
+.bform{display:flex;flex-direction:column;gap:0}
+.fgroup{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:28px 28px 30px;margin-bottom:16px}
+.fgroup-head{display:flex;align-items:baseline;gap:10px;margin-bottom:20px}
+.fgroup-n{font-family:var(--fm);font-size:11px;color:var(--cyan);letter-spacing:.06em;flex-shrink:0}
+.fgroup-title{font-size:15px;font-weight:500;color:var(--ink)}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.frow:last-child{margin-bottom:0}
+.frow.single{grid-template-columns:1fr}
+.ffield{display:flex;flex-direction:column;gap:7px}
+.ffield label{font-family:var(--fm);font-size:10.5px;color:var(--ink-dimmer);letter-spacing:.06em;text-transform:uppercase}
+.ffield input[type=text],.ffield input[type=tel],.ffield textarea{
+  background:var(--bg);border:1px solid var(--line2);border-radius:8px;color:var(--ink);
+  font-family:var(--fb);font-size:14px;padding:11px 14px;outline:none;transition:border-color .25s;width:100%;resize:vertical;
+}
+.ffield input:focus,.ffield textarea:focus{border-color:var(--cyan)}
+.ffield input::placeholder,.ffield textarea::placeholder{color:var(--ink-dimmer)}
+.fradios{display:flex;flex-wrap:wrap;gap:8px}
+.fradio{position:relative}
+.fradio input{position:absolute;opacity:0;width:0;height:0}
+.fradio span{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--ink-dim);background:var(--bg);border:1px solid var(--line2);border-radius:100px;padding:8px 16px;cursor:pointer;transition:all .2s}
+.fradio input:checked + span{border-color:var(--cyan);color:var(--ink);background:var(--cyan-dim)}
+.ffile{position:relative}
+.ffile input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.ffile-box{border:1.5px dashed var(--line2);border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;transition:border-color .2s;background:var(--bg)}
+.ffile:hover .ffile-box{border-color:var(--cyan)}
+.ffile-ico{width:34px;height:34px;border-radius:8px;background:var(--cyan-dim);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ffile-ico svg{width:16px;height:16px;stroke:var(--cyan)}
+.ffile-txt{font-size:12.5px;color:var(--ink-dim)}
+.ffile-txt b{color:var(--ink);font-weight:500;display:block;font-size:13px;margin-bottom:2px}
+.ffile-name{font-family:var(--fm);font-size:11px;color:var(--cyan);margin-top:6px;display:none}
+
+.submit-row{margin-top:8px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.submit-btn{
+  display:inline-flex;align-items:center;gap:10px;background:var(--cyan);color:#04140F;
+  font-family:var(--fb);font-weight:600;font-size:14.5px;padding:16px 38px;border:none;border-radius:100px;
+  cursor:pointer;transition:all .3s;letter-spacing:-.01em;
+}
+.submit-btn:hover{background:#1FF0D4;transform:translateY(-2px)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.submit-note{font-family:var(--fm);font-size:10.5px;color:var(--ink-dimmer);text-align:center;max-width:380px;line-height:1.6}
+.form-status{font-family:var(--fm);font-size:12px;text-align:center;padding:14px 20px;border-radius:10px;display:none;max-width:480px}
+.form-status.show{display:block}
+.form-status.ok{background:var(--cyan-dim);color:var(--cyan);border:1px solid var(--cyan)}
+.form-status.err{background:#3F0A0A;color:#FF6B6B;border:1px solid #6B1A1A}
+
+@media(max-width:600px){
+  .frow{grid-template-columns:1fr}
+  .fgroup{padding:22px 18px 24px}
+}
+.cta-tag{font-family:var(--fm);font-size:11px;color:var(--cyan);letter-spacing:.1em;margin-bottom:20px;text-align:center}
+.cta-title{font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:600;color:var(--ink);margin-bottom:18px;max-width:640px;margin-left:auto;margin-right:auto;text-align:center}
+.cta-desc{font-size:15px;color:var(--ink-dim);max-width:480px;margin:0 auto 36px;line-height:1.8;text-align:center}
+.cta-pill{display:inline-flex;align-items:center;gap:10px;background:var(--paper);border:1px solid var(--line2);border-radius:100px;padding:14px 26px;font-family:var(--fm);font-size:12.5px;color:var(--ink-dim)}
+.cta-pill .ndot{background:var(--ink-dimmer)}
+
+/* FOOTER */
+footer{padding:48px 0;border-top:1px solid var(--line)}
+.foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.foot-left{font-family:var(--fm);font-size:11px;color:var(--ink-dimmer)}
+.foot-right{font-family:var(--fm);font-size:11px;color:var(--ink-dimmer);display:flex;gap:20px}
+
+/* FADE */
+.fade{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.fade.in{opacity:1;transform:none}
+.fade[data-d="1"].in{transition-delay:.08s}
+.fade[data-d="2"].in{transition-delay:.16s}
+.fade[data-d="3"].in{transition-delay:.24s}
+
+@media(max-width:760px){
+  .who-grid{grid-template-columns:1fr;gap:28px}
+  .dcard-inner{grid-template-columns:1fr}
+  .dcard-tab{flex-direction:row;border-right:none;border-bottom:1px solid var(--line);padding:16px 20px}
+  .dcard-status{writing-mode:horizontal-tb;margin-top:0}
+  .dcard-body{padding:24px 20px}
+  .flow{grid-template-columns:1fr 1fr;gap:32px 16px}
+  .flow::before{display:none}
+  .h-meta{gap:20px}
+  .sec-head{flex-direction:column;align-items:flex-start}
+  .sec-note{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="ni">
+    <div class="nlogo"><b>RUSLAN</b><span class="blink">_</span>BRIEF</div>
+    <div class="nstatus"><div class="ndot"></div>ОЖИДАНИЕ ДАННЫХ</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="wrap">
+    <div class="htag fade"><span class="htag-n">[ ДОК. 001 ]</span> ПЕРЕД ЗАПУСКОМ САЙТА — ПРОЧТИТЕ ЭТО</div>
+    <h1 class="h-title fade" data-d="1">Прежде чем я начну —<br>мне нужно <em>5 минут</em> вашего времени</h1>
+    <p class="h-desc fade" data-d="2">Я <b>Руслан</b> — занимаюсь созданием сайтов для партнёров Зарины. Не дизайнер, не фигма-специалист — я собираю готовый сайт от структуры до публикации. Чтобы сделать всё точно с первого раза, мне нужно несколько вещей от вас: контакты, бренд, цвета, примеры и сроки.</p>
+    <p class="h-desc fade" data-d="2">Ниже — список того, что нужно подготовить. Не нужно присылать всё сразу в чат вразброс — соберите по разделам, так я не упущу ничего важного.</p>
+    <div class="h-meta fade" data-d="3">
+      <div class="h-meta-item"><b>6</b>РАЗДЕЛОВ БРИФА</div>
+      <div class="h-meta-item"><b>~5 мин</b>НА ЗАПОЛНЕНИЕ</div>
+      <div class="h-meta-item"><b>1–3 дня</b>СРОК САЙТА ПОСЛЕ БРИФА</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO AM I -->
+<section class="whoami">
+  <div class="wrap">
+    <div class="who-grid">
+      <div class="who-item fade">
+        <div class="who-mark">01</div>
+        <div>
+          <div class="who-title">Что я делаю</div>
+          <div class="who-desc">Собираю рабочий сайт под ваш бизнес: структура, тексты, дизайн, публикация. Готовый результат — не макет.</div>
+        </div>
+      </div>
+      <div class="who-item fade" data-d="1">
+        <div class="who-mark">02</div>
+        <div>
+          <div class="who-title">Чего я не делаю</div>
+          <div class="who-desc">Не рисую дизайн-макеты в Figma на согласование. Сразу собираю готовый рабочий сайт — правки вношу по ходу.</div>
+        </div>
+      </div>
+      <div class="who-item fade" data-d="2">
+        <div class="who-mark">03</div>
+        <div>
+          <div class="who-title">Как со мной работать</div>
+          <div class="who-desc">Заполняете бриф по разделам ниже → я делаю сайт → вы смотрите и говорите правки → публикуем.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRIEF SECTIONS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head fade">
+      <div>
+        <span class="sec-eyebrow">[ ДОК. 002 ]</span>
+        <h2 class="sec-title">Что нужно подготовить</h2>
+      </div>
+      <div class="sec-note">Каждый раздел — отдельный блок информации. Заполняйте по порядку, не обязательно всё сразу.</div>
+    </div>
+
+    <div class="dossier-grid">
+
+      <div class="dcard fade">
+        <div class="dcard-inner">
+          <div class="dcard-tab">
+            <div class="dcard-num">01</div>
+            <div class="dcard-status">ОБЯЗАТЕЛЬНО</div>
+          </div>
+          <div class="dcard-body">
+            <span class="dcard-label">КОНТАКТЫ</span>
+            <div class="dcard-title">Кто вы и как с вами связаться</div>
+            <div class="dcard-desc">Базовые данные — без них не получится начать. Имя нужно, чтобы знать, к кому обращаться по правкам.</div>
+            <div class="dcard-fields">
+              <div class="dfield"><div class="dfield-dot"></div>Имя и фамилия</div>
+              <div class="dfield"><div class="dfield-dot"></div>Телефон / Telegram</div>
+              <div class="dfield"><div class="dfield-dot"></div>Город запуска</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dcard fade" data-d="1">
+        <div class="dcard-inner">
+          <div class="dcard-tab">
+            <div class="dcard-num">02</div>
+            <div class="dcard-status">ОБЯЗАТЕЛЬНО</div>
+          </div>
+          <div class="dcard-body">
+            <span class="dcard-label">БРЕНД</span>
+            <div class="dcard-title">Название и логотип</div>
+            <div class="dcard-desc">Если логотипа пока нет — не страшно, обсудим отдельно. Главное — название, под которым выходите на клиентов.</div>
+            <div class="dcard-fields">
+              <div class="dfield"><div class="dfield-dot"></div>Название компании</div>
+              <div class="dfield upload"><div class="dfield-dot"></div>Файл логотипа</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dcard fade" data-d="2">
+        <div class="dcard-inner">
+          <div class="dcard-tab">
+            <div class="dcard-num">03</div>
+            <div class="dcard-status">ОБЯЗАТЕЛЬНО</div>
+          </div>
+          <div class="dcard-body">
+            <span class="dcard-label">ЦВЕТА И СТИЛЬ</span>
+            <div class="dcard-title">Как должен выглядеть сайт</div>
+            <div class="dcard-desc">Если сомневаетесь — напишите "на ваш выбор", я подберу исходя из вашей нишы и логотипа.</div>
+            <div class="dcard-fields">
+              <div class="dfield"><div class="dfield-dot"></div>Цвета бренда</div>
+              <div class="dfield"><div class="dfield-dot"></div>Светлый / тёмный / премиум</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dcard fade">
+        <div class="dcard-inner">
+          <div class="dcard-tab">
+            <div class="dcard-num">04</div>
+            <div class="dcard-status">ЖЕЛАТЕЛЬНО</div>
+          </div>
+          <div class="dcard-body">
+            <span class="dcard-label">РЕФЕРЕНСЫ</span>
+            <div class="dcard-title">Примеры, которые нравятся</div>
+            <div class="dcard-desc">Скриншоты сайтов конкурентов или просто понравившихся примеров — экономит время на угадывание вкуса.</div>
+            <div class="dcard-fields">
+              <div class="dfield upload"><div class="dfield-dot"></div>Скриншоты / файлы</div>
+              <div class="dfield"><div class="dfield-dot"></div>Ссылки на сайты-примеры</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dcard fade" data-d="1">
+        <div class="dcard-inner">
+          <div class="dcard-tab">
+            <div class="dcard-num">05</div>
+            <div class="dcard-status">ОБЯЗАТЕЛЬНО</div>
+          </div>
+          <div class="dcard-body">
+            <span class="dcard-label">УСЛУГИ И КОНТЕНТ</span>
+            <div class="dcard-title">Что показать на сайте</div>
+            <div class="dcard-desc">Список услуг, нужен ли калькулятор стоимости, какие соцсети и номера показывать клиентам.</div>
+            <div class="dcard-fields">
+              <div class="dfield"><div class="dfield-dot"></div>Список услуг</div>
+              <div class="dfield"><div class="dfield-dot"></div>Калькулятор: да/нет</div>
+              <div class="dfield"><div class="dfield-dot"></div>Контакты на сайт</div>
+              <div class="dfield upload"><div class="dfield-dot"></div>Фото/видео работ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dcard fade" data-d="2">
+        <div class="dcard-inner">
+          <div class="dcard-tab">
+            <div class="dcard-num">06</div>
+            <div class="dcard-status">ОБЯЗАТЕЛЬНО</div>
+          </div>
+          <div class="dcard-body">
+            <span class="dcard-label">СРОКИ</span>
+            <div class="dcard-title">Когда нужен готовый сайт</div>
+            <div class="dcard-desc">Срочность влияет на порядок очереди — честно скажите реальный дедлайн, а не "вчера".</div>
+            <div class="dcard-fields">
+              <div class="dfield"><div class="dfield-dot"></div>1–2 дня</div>
+              <div class="dfield"><div class="dfield-dot"></div>Неделя</div>
+              <div class="dfield"><div class="dfield-dot"></div>Не срочно</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head fade">
+      <div>
+        <span class="sec-eyebrow">[ ДОК. 003 ]</span>
+        <h2 class="sec-title">Как это будет происходить</h2>
+      </div>
+    </div>
+    <div class="flow fade">
+      <div class="flow-step">
+        <div class="flow-dot">01</div>
+        <div class="flow-title">Вы заполняете бриф</div>
+        <div class="flow-desc">Все 6 разделов выше — присылаете мне или менеджеру.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">02</div>
+        <div class="flow-title">Я собираю сайт</div>
+        <div class="flow-desc">Структура, тексты, дизайн под ваш бренд — готовый рабочий результат.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">03</div>
+        <div class="flow-title">Вы смотрите и правите</div>
+        <div class="flow-desc">Присылаете правки — я вношу. Без долгих согласований макетов.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">04</div>
+        <div class="flow-title">Публикуем</div>
+        <div class="flow-desc">Сайт уходит в работу — можно подключать рекламу и клиентов.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="cta-sec" id="brief-form">
+  <div class="wrap">
+    <div class="cta-tag fade">[ ДОК. 004 ]</div>
+    <h2 class="cta-title fade" data-d="1">Заполните бриф —<br>отправится мне автоматически</h2>
+    <p class="cta-desc fade" data-d="2">Заполните поля ниже по разделам. После отправки данные сразу придут мне в Telegram — ничего никуда копировать не нужно.</p>
+
+    <form class="bform fade" data-d="3" id="briefForm">
+
+      <div class="fgroup">
+        <div class="fgroup-head"><span class="fgroup-n">01</span><span class="fgroup-title">Контакты</span></div>
+        <div class="frow">
+          <div class="ffield"><label>Имя и фамилия</label><input type="text" name="name" placeholder="Как вас зовут" required></div>
+          <div class="ffield"><label>Телефон / Telegram</label><input type="text" name="contact" placeholder="+7 ... или @username" required></div>
+        </div>
+        <div class="frow single">
+          <div class="ffield"><label>Город запуска</label><input type="text" name="city" placeholder="Например, Казань"></div>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <div class="fgroup-head"><span class="fgroup-n">02</span><span class="fgroup-title">Бренд</span></div>
+        <div class="frow single">
+          <div class="ffield"><label>Название компании</label><input type="text" name="brand" placeholder="Название вашего бренда" required></div>
+        </div>
+        <div class="frow single">
+          <div class="ffield">
+            <label>Файл логотипа (если есть)</label>
+            <div class="ffile">
+              <input type="file" name="logo" id="logoFile" accept="image/*,.pdf">
+              <div class="ffile-box">
+                <div class="ffile-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+                <div class="ffile-txt"><b>Загрузить логотип</b>PNG, JPG, PDF — если пока нет, оставьте пустым</div>
+              </div>
+            </div>
+            <div class="ffile-name" id="logoFileName"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <div class="fgroup-head"><span class="fgroup-n">03</span><span class="fgroup-title">Цвета и стиль</span></div>
+        <div class="frow single">
+          <div class="ffield"><label>Цвета бренда</label><input type="text" name="colors" placeholder="Например: синий и белый, или 'на ваш выбор'"></div>
+        </div>
+        <div class="frow single">
+          <div class="ffield">
+            <label>Стиль</label>
+            <div class="fradios">
+              <label class="fradio"><input type="radio" name="style" value="Светлый"><span>Светлый</span></label>
+              <label class="fradio"><input type="radio" name="style" value="Тёмный премиум"><span>Тёмный премиум</span></label>
+              <label class="fradio"><input type="radio" name="style" value="Минимализм"><span>Минимализм</span></label>
+              <label class="fradio"><input type="radio" name="style" value="Доверяю дизайнеру"><span>Доверяю дизайнеру</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <div class="fgroup-head"><span class="fgroup-n">04</span><span class="fgroup-title">Референсы</span></div>
+        <div class="frow single">
+          <div class="ffield">
+            <label>Скриншоты / файлы примеров</label>
+            <div class="ffile">
+              <input type="file" name="refs" id="refsFile" accept="image/*,.pdf" multiple>
+              <div class="ffile-box">
+                <div class="ffile-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+                <div class="ffile-txt"><b>Загрузить референсы</b>Можно несколько файлов сразу</div>
+              </div>
+            </div>
+            <div class="ffile-name" id="refsFileName"></div>
+          </div>
+        </div>
+        <div class="frow single">
+          <div class="ffield"><label>Ссылки на сайты-примеры</label><input type="text" name="reflinks" placeholder="Вставьте ссылки, если есть"></div>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <div class="fgroup-head"><span class="fgroup-n">05</span><span class="fgroup-title">Услуги и контент</span></div>
+        <div class="frow single">
+          <div class="ffield"><label>Список услуг</label><textarea name="services" rows="3" placeholder="Например: уборка квартир, офисов, после ремонта, химчистка..."></textarea></div>
+        </div>
+        <div class="frow single">
+          <div class="ffield">
+            <label>Нужен калькулятор стоимости?</label>
+            <div class="fradios">
+              <label class="fradio"><input type="radio" name="calc" value="Да"><span>Да</span></label>
+              <label class="fradio"><input type="radio" name="calc" value="Нет"><span>Нет</span></label>
+              <label class="fradio"><input type="radio" name="calc" value="Не уверен"><span>Не уверен</span></label>
+            </div>
+          </div>
+        </div>
+        <div class="frow single">
+          <div class="ffield"><label>Контакты для сайта</label><input type="text" name="sitecontacts" placeholder="Телефон, соцсети, что показывать клиентам"></div>
+        </div>
+        <div class="frow single">
+          <div class="ffield">
+            <label>Фото/видео ваших работ</label>
+            <div class="ffile">
+              <input type="file" name="media" id="mediaFile" accept="image/*,video/*" multiple>
+              <div class="ffile-box">
+                <div class="ffile-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+                <div class="ffile-txt"><b>Загрузить фото/видео</b>Если пока нет — поставим заглушки</div>
+              </div>
+            </div>
+            <div class="ffile-name" id="mediaFileName"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <div class="fgroup-head"><span class="fgroup-n">06</span><span class="fgroup-title">Сроки</span></div>
+        <div class="frow single">
+          <div class="ffield">
+            <div class="fradios">
+              <label class="fradio"><input type="radio" name="deadline" value="1-2 дня"><span>1–2 дня</span></label>
+              <label class="fradio"><input type="radio" name="deadline" value="Неделя"><span>Неделя</span></label>
+              <label class="fradio"><input type="radio" name="deadline" value="Не срочно"><span>Не срочно</span></label>
+            </div>
+          </div>
+        </div>
+        <div class="frow single">
+          <div class="ffield"><label>Комментарии (необязательно)</label><textarea name="comments" rows="2" placeholder="Что-то ещё, о чём нужно знать?"></textarea></div>
+        </div>
+      </div>
+
+      <div class="submit-row">
+        <div class="form-status" id="formStatus"></div>
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Отправить бриф
+        </button>
+        <div class="submit-note">Данные отправятся напрямую разработчику. Файлы можно не прикладывать — пришлите их в чат отдельно, если форма не примет.</div>
+      </div>
+
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <div class="foot-left">RUSLAN_BRIEF / v0.1</div>
+    <div class="foot-right">
+      <span>СТАТУС: АКТИВЕН</span>
+      <span>ДОК. 001–004</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')})},{threshold:0.08})
+document.querySelectorAll('.fade').forEach(el=>io.observe(el))
+setTimeout(()=>document.querySelectorAll('.hero .fade').forEach(el=>el.classList.add('in')),60)
+
+/* ====================================================================
+   TELEGRAM BOT НАСТРОЙКИ
+   ====================================================================
+   Вставь сюда токен бота и chat_id, которые ты получил от @BotFather
+   и @getmyid_bot. Без них форма не отправится.
+
+   Пример:
+   const BOT_TOKEN = '7123456789:AAH8x3kP9...';
+   const CHAT_ID   = '123456789';
+   ==================================================================== */
+const BOT_TOKEN = '8821996542:AAHPipu3Wcjv3gyH3BnXENTsxJ7LUHNUFlU';
+const CHAT_ID   = '6337391749';
+/* ==================================================================== */
+
+// показываем имя выбранного файла под полем загрузки
+function bindFileName(inputId, displayId){
+  const input = document.getElementById(inputId);
+  const display = document.getElementById(displayId);
+  input.addEventListener('change', () => {
+    if (input.files.length === 0) { display.style.display='none'; return; }
+    const names = Array.from(input.files).map(f => f.name).join(', ');
+    display.textContent = '✓ ' + names;
+    display.style.display = 'block';
+  });
+}
+bindFileName('logoFile', 'logoFileName');
+bindFileName('refsFile', 'refsFileName');
+bindFileName('mediaFile', 'mediaFileName');
+
+const form = document.getElementById('briefForm');
+const statusEl = document.getElementById('formStatus');
+const submitBtn = document.getElementById('submitBtn');
+
+function showStatus(text, ok){
+  statusEl.textContent = text;
+  statusEl.className = 'form-status show ' + (ok ? 'ok' : 'err');
+}
+
+async function sendTextToTelegram(text){
+  const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'HTML' })
+  });
+  if (!res.ok) throw new Error('Telegram sendMessage failed');
+}
+
+async function sendFileToTelegram(file, caption){
+  const isImage = file.type.startsWith('image/');
+  const isVideo = file.type.startsWith('video/');
+  const method = isImage ? 'sendPhoto' : isVideo ? 'sendVideo' : 'sendDocument';
+  const field  = isImage ? 'photo' : isVideo ? 'video' : 'document';
+  const url = `https://api.telegram.org/bot${BOT_TOKEN}/${method}`;
+  const fd = new FormData();
+  fd.append('chat_id', CHAT_ID);
+  fd.append(field, file);
+  if (caption) fd.append('caption', caption);
+  const res = await fetch(url, { method: 'POST', body: fd });
+  if (!res.ok) throw new Error('Telegram file upload failed: ' + file.name);
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  if (BOT_TOKEN.includes('ВСТАВЬ') || CHAT_ID.includes('ВСТАВЬ')) {
+    showStatus('Форма ещё не настроена — впишите токен бота и chat_id в код (см. комментарий в начале script).', false);
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Отправляю...';
+  showStatus('Отправка данных...', true);
+
+  const fd = new FormData(form);
+  const get = (k) => (fd.get(k) || '').toString().trim();
+
+  const lines = [
+    '<b>📋 Новый бриф на сайт</b>',
+    '',
+    '<b>01 — Контакты</b>',
+    'Имя: ' + (get('name') || '—'),
+    'Связь: ' + (get('contact') || '—'),
+    'Город: ' + (get('city') || '—'),
+    '',
+    '<b>02 — Бренд</b>',
+    'Название: ' + (get('brand') || '—'),
+    '',
+    '<b>03 — Цвета и стиль</b>',
+    'Цвета: ' + (get('colors') || '—'),
+    'Стиль: ' + (get('style') || '—'),
+    '',
+    '<b>04 — Референсы</b>',
+    'Ссылки: ' + (get('reflinks') || '—'),
+    '',
+    '<b>05 — Услуги и контент</b>',
+    'Услуги: ' + (get('services') || '—'),
+    'Калькулятор: ' + (get('calc') || '—'),
+    'Контакты на сайт: ' + (get('sitecontacts') || '—'),
+    '',
+    '<b>06 — Сроки</b>',
+    'Срок: ' + (get('deadline') || '—'),
+    'Комментарии: ' + (get('comments') || '—'),
+  ].join('\n');
+
+  try {
+    await sendTextToTelegram(lines);
+
+    // отправляем файлы по очереди, если приложены
+    const logoInput = document.getElementById('logoFile');
+    const refsInput = document.getElementById('refsFile');
+    const mediaInput = document.getElementById('mediaFile');
+
+    for (const f of logoInput.files) await sendFileToTelegram(f, 'Логотип — ' + (get('brand') || get('name')));
+    for (const f of refsInput.files) await sendFileToTelegram(f, 'Референс — ' + (get('brand') || get('name')));
+    for (const f of mediaInput.files) await sendFileToTelegram(f, 'Фото/видео работ — ' + (get('brand') || get('name')));
+
+    showStatus('Готово! Бриф отправлен — мы скоро свяжемся с вами.', true);
+    form.reset();
+    document.querySelectorAll('.ffile-name').forEach(el => el.style.display='none');
+    submitBtn.textContent = 'Отправлено ✓';
+  } catch (err) {
+    console.error(err);
+    showStatus('Не получилось отправить автоматически. Пришлите, пожалуйста, эти данные мне в чат напрямую.', false);
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Отправить бриф';
+  }
+});
+</script>
+
+</body>
+</html>
