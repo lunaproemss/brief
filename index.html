@@ -46,6 +46,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,11,.88
 .nlogo b{color:var(--ink);font-weight:500}
 .nlogo .blink{color:var(--cyan)}
 .nstatus{display:flex;align-items:center;gap:8px;font-family:var(--fm);font-size:11px;color:var(--ink-dimmer);letter-spacing:.04em}
+.share-btn{display:flex;align-items:center;gap:7px;background:var(--paper);border:1px solid var(--line2);border-radius:100px;color:var(--ink-dim);font-family:var(--fb);font-size:11.5px;padding:8px 16px;cursor:pointer;transition:all .25s}
+.share-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.share-btn.copied{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-dim)}
 .ndot{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
@@ -187,6 +190,9 @@ footer{padding:48px 0;border-top:1px solid var(--line)}
   .h-meta{gap:20px}
   .sec-head{flex-direction:column;align-items:flex-start}
   .sec-note{text-align:left}
+  .nstatus{display:none}
+  .share-btn{font-size:0;padding:9px;gap:0}
+  .share-btn svg{margin:0}
 }
 </style>
 </head>
@@ -194,8 +200,14 @@ footer{padding:48px 0;border-top:1px solid var(--line)}
 
 <nav>
   <div class="ni">
-    <div class="nlogo"><b>RUSLAN</b><span class="blink">_</span>BRIEF</div>
-    <div class="nstatus"><div class="ndot"></div>ОЖИДАНИЕ ДАННЫХ</div>
+    <div class="nlogo"><b>BRIEF</b><span class="blink">_</span>SITE</div>
+    <div style="display:flex;align-items:center;gap:18px">
+      <div class="nstatus"><div class="ndot"></div>ОЖИДАНИЕ ДАННЫХ</div>
+      <button class="share-btn" id="shareBtn" onclick="shareLink()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Скопировать ссылку
+      </button>
+    </div>
   </div>
 </nav>
 
@@ -205,10 +217,10 @@ footer{padding:48px 0;border-top:1px solid var(--line)}
   <div class="wrap">
     <div class="htag fade"><span class="htag-n">[ ДОК. 001 ]</span> ПЕРЕД ЗАПУСКОМ САЙТА — ПРОЧТИТЕ ЭТО</div>
     <h1 class="h-title fade" data-d="1">Прежде чем я начну —<br>мне нужно <em>5 минут</em> вашего времени</h1>
-    <p class="h-desc fade" data-d="2">Я <b>Руслан</b> — занимаюсь созданием сайтов для партнёров Зарины. Не дизайнер, не фигма-специалист — я собираю готовый сайт от структуры до публикации. Чтобы сделать всё точно с первого раза, мне нужно несколько вещей от вас: контакты, бренд, цвета, примеры и сроки.</p>
+    <p class="h-desc fade" data-d="2">Я занимаюсь созданием сайтов. Не дизайнер, не фигма-специалист — я собираю готовый сайт от структуры до публикации. Чтобы сделать всё точно с первого раза, мне нужно несколько вещей от вас: контакты, бренд, цвета, примеры и сроки.</p>
     <p class="h-desc fade" data-d="2">Ниже — список того, что нужно подготовить. Не нужно присылать всё сразу в чат вразброс — соберите по разделам, так я не упущу ничего важного.</p>
     <div class="h-meta fade" data-d="3">
-      <div class="h-meta-item"><b>6</b>РАЗДЕЛОВ БРИФА</div>
+      <div class="h-meta-item"><b>7</b>РАЗДЕЛОВ БРИФА</div>
       <div class="h-meta-item"><b>~5 мин</b>НА ЗАПОЛНЕНИЕ</div>
       <div class="h-meta-item"><b>1–3 дня</b>СРОК САЙТА ПОСЛЕ БРИФА</div>
     </div>
@@ -350,10 +362,28 @@ footer{padding:48px 0;border-top:1px solid var(--line)}
         </div>
       </div>
 
-      <div class="dcard fade" data-d="2">
+      <div class="dcard fade" data-d="3">
         <div class="dcard-inner">
           <div class="dcard-tab">
             <div class="dcard-num">06</div>
+            <div class="dcard-status">ОБЯЗАТЕЛЬНО</div>
+          </div>
+          <div class="dcard-body">
+            <span class="dcard-label">ПЛАТФОРМА</span>
+            <div class="dcard-title">На чём будет жить сайт</div>
+            <div class="dcard-desc">Тильда, обычный код на своём хостинге, или доверяете выбор разработчику — это влияет на стоимость и сроки.</div>
+            <div class="dcard-fields">
+              <div class="dfield"><div class="dfield-dot"></div>Тильда / код / доверяю выбор</div>
+              <div class="dfield"><div class="dfield-dot"></div>Есть ли домен/хостинг</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dcard fade" data-d="1">
+        <div class="dcard-inner">
+          <div class="dcard-tab">
+            <div class="dcard-num">07</div>
             <div class="dcard-status">ОБЯЗАТЕЛЬНО</div>
           </div>
           <div class="dcard-body">
@@ -519,7 +549,24 @@ footer{padding:48px 0;border-top:1px solid var(--line)}
       </div>
 
       <div class="fgroup">
-        <div class="fgroup-head"><span class="fgroup-n">06</span><span class="fgroup-title">Сроки</span></div>
+        <div class="fgroup-head"><span class="fgroup-n">06</span><span class="fgroup-title">Платформа</span></div>
+        <div class="frow single">
+          <div class="ffield">
+            <label>На чём должен быть сайт?</label>
+            <div class="fradios">
+              <label class="fradio"><input type="radio" name="platform" value="Тильда"><span>Тильда</span></label>
+              <label class="fradio"><input type="radio" name="platform" value="Обычный код / свой хостинг"><span>Обычный код / свой хостинг</span></label>
+              <label class="fradio"><input type="radio" name="platform" value="Не знаю, доверяю разработчику"><span>Не знаю, доверяю разработчику</span></label>
+            </div>
+          </div>
+        </div>
+        <div class="frow single">
+          <div class="ffield"><label>Есть ли уже домен или аккаунт хостинга?</label><input type="text" name="hosting" placeholder="Например: домен есть на reg.ru, или 'пока нет ничего'"></div>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <div class="fgroup-head"><span class="fgroup-n">07</span><span class="fgroup-title">Сроки</span></div>
         <div class="frow single">
           <div class="ffield">
             <div class="fradios">
@@ -549,7 +596,7 @@ footer{padding:48px 0;border-top:1px solid var(--line)}
 
 <footer>
   <div class="wrap foot-row">
-    <div class="foot-left">RUSLAN_BRIEF / v0.1</div>
+    <div class="foot-left">BRIEF_SITE / v0.1</div>
     <div class="foot-right">
       <span>СТАТУС: АКТИВЕН</span>
       <span>ДОК. 001–004</span>
@@ -590,6 +637,20 @@ function bindFileName(inputId, displayId){
 bindFileName('logoFile', 'logoFileName');
 bindFileName('refsFile', 'refsFileName');
 bindFileName('mediaFile', 'mediaFileName');
+
+// копирование ссылки на сайт в буфер обмена
+function shareLink(){
+  const url = window.location.href;
+  const btn = document.getElementById('shareBtn');
+  navigator.clipboard.writeText(url).then(() => {
+    btn.classList.add('copied');
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Скопировано';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Скопировать ссылку';
+    }, 2000);
+  });
+}
 
 const form = document.getElementById('briefForm');
 const statusEl = document.getElementById('formStatus');
@@ -638,33 +699,41 @@ form.addEventListener('submit', async (e) => {
 
   const fd = new FormData(form);
   const get = (k) => (fd.get(k) || '').toString().trim();
+  const orNote = (v) => v || 'не указано';
+
+  const contactMissing = !get('contact');
+  const warning = contactMissing ? '⚠️ <b>Контакт не указан — уточните способ связи!</b>\n' : '';
 
   const lines = [
-    '<b>📋 Новый бриф на сайт</b>',
+    warning + '<b>📋 Новый бриф на сайт</b>',
     '',
     '<b>01 — Контакты</b>',
-    'Имя: ' + (get('name') || '—'),
-    'Связь: ' + (get('contact') || '—'),
-    'Город: ' + (get('city') || '—'),
+    'Имя: ' + orNote(get('name')),
+    'Связь: ' + orNote(get('contact')),
+    'Город: ' + orNote(get('city')),
     '',
     '<b>02 — Бренд</b>',
-    'Название: ' + (get('brand') || '—'),
+    'Название: ' + orNote(get('brand')),
     '',
     '<b>03 — Цвета и стиль</b>',
-    'Цвета: ' + (get('colors') || '—'),
-    'Стиль: ' + (get('style') || '—'),
+    'Цвета: ' + orNote(get('colors')),
+    'Стиль: ' + orNote(get('style')),
     '',
     '<b>04 — Референсы</b>',
-    'Ссылки: ' + (get('reflinks') || '—'),
+    'Ссылки: ' + orNote(get('reflinks')),
     '',
     '<b>05 — Услуги и контент</b>',
-    'Услуги: ' + (get('services') || '—'),
-    'Калькулятор: ' + (get('calc') || '—'),
-    'Контакты на сайт: ' + (get('sitecontacts') || '—'),
+    'Услуги: ' + orNote(get('services')),
+    'Калькулятор: ' + orNote(get('calc')),
+    'Контакты на сайт: ' + orNote(get('sitecontacts')),
     '',
-    '<b>06 — Сроки</b>',
-    'Срок: ' + (get('deadline') || '—'),
-    'Комментарии: ' + (get('comments') || '—'),
+    '<b>06 — Платформа</b>',
+    'Платформа: ' + orNote(get('platform')),
+    'Хостинг/домен: ' + orNote(get('hosting')),
+    '',
+    '<b>07 — Сроки</b>',
+    'Срок: ' + orNote(get('deadline')),
+    'Комментарии: ' + orNote(get('comments')),
   ].join('\n');
 
   try {
